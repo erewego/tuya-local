@@ -1,0 +1,336 @@
+name: Air quality monitor
+products:
+  - id: w4k0qeatuuyandmp
+    manufacturer: Nobito
+    model: Nobito-2C09T
+entities:
+  - entity: sensor
+    translation_key: air_quality
+    class: enum
+    dps:
+      - id: 1
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: level_1
+            value: excellent
+          - dps_val: level_2
+            value: good
+          - dps_val: level_3
+            value: moderate
+          - dps_val: level_4
+            value: poor
+  - entity: sensor
+    class: temperature
+    dps:
+      - id: 2
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        mapping:
+          - scale: 10
+  - entity: sensor
+    class: humidity
+    dps:
+      - id: 3
+        type: integer
+        name: sensor
+        unit: '%'
+        class: measurement
+        mapping:
+          - scale: 10
+  - entity: sensor
+    class: carbon_dioxide
+    dps:
+      - id: 4
+        type: integer
+        name: sensor
+        unit: ppm
+        class: measurement
+  - entity: sensor
+    name: HCHO
+    class: volatile_organic_compounds
+    dps:
+      - id: 5
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+  - entity: sensor
+    class: volatile_organic_compounds
+    dps:
+      - id: 6
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+  - entity: sensor
+    class: pm25
+    dps:
+      - id: 7
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+  - entity: sensor
+    class: pm1
+    dps:
+      - id: 8
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+  - entity: sensor
+    class: pm10
+    dps:
+      - id: 9
+        type: integer
+        name: sensor
+        unit: ugm3
+        class: measurement
+  - entity: sensor
+    class: battery
+    category: diagnostic
+    dps:
+      - id: 22
+        type: integer
+        name: sensor
+        unit: '%'
+        class: measurement
+  - entity: binary_sensor
+    class: battery_charging
+    category: diagnostic
+    hidden: true
+    dps:
+      - id: 23
+        type: boolean
+        name: sensor
+        optional: true
+      - id: 23
+        type: boolean
+        name: available
+        optional: true
+        readonly: true
+        mapping:
+          - dps_val: null
+            value: false
+          - value: true
+  - entity: number
+    translation_key: sensor_threshold
+    translation_placeholders:
+      sensor: PM2.5 alarm
+    category: config
+    dps:
+      - id: 101
+        type: integer
+        name: value
+        unit: ugm3
+        range:
+          min: 20
+          max: 500
+  - entity: select
+    translation_key: temperature_unit
+    category: config
+    dps:
+      - id: 102
+        type: string
+        name: option
+        mapping:
+          - dps_val: c
+            value: celsius
+          - dps_val: f
+            value: fahrenheit
+  - entity: switch
+    translation_key: sound
+    category: config
+    dps:
+      - id: 103
+        type: boolean
+        name: switch
+  - entity: switch
+    name: HCHO alarm
+    icon: mdi:bell-alert
+    category: config
+    dps:
+      - id: 104
+        type: boolean
+        name: switch
+  - entity: number
+    translation_key: sensor_threshold
+    translation_placeholders:
+      sensor: HCHO alarm
+    category: config
+    dps:
+      - id: 105
+        type: integer
+        name: value
+        unit: ugm3
+        range:
+          min: 50
+          max: 1000
+  - entity: sensor
+    name: Temperature (Fahrenheit)
+    class: temperature
+    category: diagnostic
+    hidden: true
+    dps:
+      - id: 109
+        type: integer
+        name: sensor
+        unit: F
+        class: measurement
+        mapping:
+          - scale: 10
+  - entity: number
+    name: High temperature alarm threshold
+    class: temperature
+    icon: mdi:thermometer-chevron-up
+    category: config
+    dps:
+      - id: 117
+        type: integer
+        name: value
+        range:
+          min: -200
+          max: 600
+        mapping:
+          - scale: 10
+            constraint: unit
+            conditions:
+              - dps_val: f
+                value_redirect: value_f
+                range:
+                  min: -40
+                  max: 1400
+      - id: 118
+        type: integer
+        name: value_f
+        range:
+          min: -40
+          max: 1400
+        mapping:
+          - scale: 10
+      - id: 102
+        type: string
+        name: unit
+        mapping:
+          - dps_val: c
+            value: C
+          - dps_val: f
+            value: F
+  - entity: number
+    name: Display brightness
+    icon: mdi:brightness-5
+    category: config
+    dps:
+      - id: 121
+        type: integer
+        name: value
+        range:
+          min: 1
+          max: 4
+  - entity: switch
+    name: PM2.5 alarm
+    icon: mdi:bell-alert
+    category: config
+    dps:
+      - id: 122
+        type: boolean
+        name: switch
+  - entity: number
+    name: Low temperature alarm threshold
+    class: temperature
+    icon: mdi:thermometer-chevron-down
+    category: config
+    dps:
+      - id: 125
+        type: integer
+        name: value
+        range:
+          min: -200
+          max: 600
+        mapping:
+          - scale: 10
+            constraint: unit
+            conditions:
+              - dps_val: f
+                value_redirect: value_f
+                range:
+                  min: -40
+                  max: 1400
+      - id: 124
+        type: integer
+        name: value_f
+        range:
+          min: -40
+          max: 1400
+        mapping:
+          - scale: 10
+      - id: 102
+        type: string
+        name: unit
+        mapping:
+          - dps_val: c
+            value: C
+          - dps_val: f
+            value: F
+  - entity: switch
+    name: High temperature alarm
+    icon: mdi:thermometer-chevron-up
+    category: config
+    dps:
+      - id: 127
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Low temperature alarm
+    icon: mdi:thermometer-chevron-down
+    category: config
+    dps:
+      - id: 128
+        type: boolean
+        name: switch
+  - entity: number
+    translation_key: sensor_threshold
+    translation_placeholders:
+      sensor: CO2 alarm
+    category: config
+    dps:
+      - id: 133
+        type: integer
+        name: value
+        unit: ppm
+        range:
+          min: 600
+          max: 3000
+  - entity: switch
+    name: CO2 alarm
+    icon: mdi:bell-alert
+    category: config
+    dps:
+      - id: 134
+        type: boolean
+        name: switch
+  - entity: number
+    name: Display sleep timeout
+    class: duration
+    icon: mdi:timer-outline
+    mode: box
+    category: config
+    dps:
+      - id: 135
+        type: integer
+        name: value
+        unit: min
+        range:
+          min: 1
+          max: 60
+  - entity: switch
+    name: Display sleep
+    icon: mdi:power-sleep
+    category: config
+    dps:
+      - id: 136
+        type: boolean
+        name: switch
